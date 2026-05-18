@@ -5,6 +5,9 @@ import io
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+if "pagina" not in st.session_state:
+    st.session_state.pagina = "principal"
+
 #clase creada para el analisis
 class DataAnalyzer:
 
@@ -30,6 +33,8 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
+
 
 st.sidebar.title("Menú Principal")
 opcion= st.sidebar.selectbox(
@@ -309,16 +314,13 @@ def analisis():
                 colVisibles
             )
 
-            # Obtener nombre real
             variable_real = [
                 key for key, value in nombres_columnas.items()
                 if value == varVisible
             ][0]
 
-            # Conteo de categorías
             counts = df[variable_real].value_counts()
 
-            # DataFrame personalizado
             counts_df = pd.DataFrame({
                 "Categoría": counts.index,
                 "Cantidad de Clientes": counts.values,
@@ -329,9 +331,8 @@ def analisis():
 
             st.dataframe(counts_df, hide_index=True)
 
-            # Gráfico
-            fig, ax = plt.subplots(figsize=(6,4))
 
+            fig, ax = plt.subplots(figsize=(6,4))
             plt.bar(
                 counts_df["Categoría"],
                 counts_df["Cantidad de Clientes"]
@@ -339,14 +340,10 @@ def analisis():
 
             ax.set_xlabel("")
             ax.set_ylabel("")
-
             plt.xticks(rotation=45)
 
             st.pyplot(fig)
-
-            # Interpretación automática
             categoria_top = counts.idxmax()
-
             cantidad_top = counts.max()
 
             st.write(f"""
@@ -356,10 +353,7 @@ def analisis():
 
 
         with tabs[6]:
-
             st.header("Item 7 - Análisis Bivariado Numérico vs Categórico")
-
-            # Diccionario de nombres personalizados
             nombres_columnas = {
                 "id": "Id de cliente",
                 "perc_premium_paid_by_cash_credit": "% de prima pagada",
@@ -376,19 +370,16 @@ def analisis():
                 "renewal": "Renovación de póliza"
             }
 
-            # Variables numéricas visibles
             numericas_visibles = [
                 nombres_columnas[col]
                 for col in numerical_cols
             ]
 
-            # Variables categóricas visibles
             categoricas_visibles = [
                 nombres_columnas[col]
                 for col in categorical_cols
             ]
 
-            # Selectbox personalizados
             numeric_visible = st.selectbox(
                 "Variable Numérica",
                 numericas_visibles
@@ -399,7 +390,6 @@ def analisis():
                 categoricas_visibles
             )
 
-            # Obtener nombres reales
             numeric_real = [
                 key for key, value in nombres_columnas.items()
                 if value == numeric_visible
@@ -410,7 +400,6 @@ def analisis():
                 if value == categorical_visible
             ][0]
 
-            # Boxplot
             fig, ax = plt.subplots(figsize=(8,5))
 
             sns.boxplot(
@@ -419,10 +408,8 @@ def analisis():
                 ax=ax
             )
 
-            # Limpiar nombres técnicos
             ax.set_xlabel("")
             ax.set_ylabel("")
-
             st.pyplot(fig)
 
 
@@ -430,7 +417,6 @@ def analisis():
 
             st.header("Item 8 - Análisis Categórico vs Categórico")
 
-            # Diccionario de nombres personalizados
             nombres_columnas = {
                 "id": "Id de cliente",
                 "perc_premium_paid_by_cash_credit": "% de prima pagada",
@@ -447,13 +433,11 @@ def analisis():
                 "renewal": "Renovación de póliza"
             }
 
-            # Variables categóricas visibles
             categoricas_visibles = [
                 nombres_columnas[col]
                 for col in categorical_cols
             ]
 
-            # Selectbox personalizados
             cat1_visible = st.selectbox(
                 "Seleccione primera variable",
                 categoricas_visibles,
@@ -466,7 +450,6 @@ def analisis():
                 key='cat2'
             )
 
-            # Obtener nombres reales
             cat1_real = [
                 key for key, value in nombres_columnas.items()
                 if value == cat1_visible
@@ -477,18 +460,14 @@ def analisis():
                 if value == cat2_visible
             ][0]
 
-            # Tabla cruzada
             cross = pd.crosstab(df[cat1_real], df[cat2_real])
 
-            # Personalizar nombres
             cross.index.name = "Categorías"
             cross.columns.name = "Variables"
 
             st.subheader("Tabla Cruzada")
-
             st.dataframe(cross)
 
-            # Heatmap
             fig, ax = plt.subplots(figsize=(8,5))
 
             sns.heatmap(
@@ -499,17 +478,14 @@ def analisis():
                 ax=ax
             )
 
-            # Eliminar nombres técnicos
             ax.set_xlabel("")
             ax.set_ylabel("")
-
             st.pyplot(fig)
 
         
         with tabs[8]:
 
             st.header("Item 9 - Análisis Dinámico")
-
             nombres_columnas = {
                 "id": "Id de cliente",
                 "perc_premium_paid_by_cash_credit": "% de prima pagada",
@@ -526,20 +502,17 @@ def analisis():
                 "renewal": "Renovación de póliza"
             }
 
-            # Multiselect con nombres amigables
             columnas_visibles = st.multiselect(
                 "Seleccione columnas para visualizar",
                 list(nombres_columnas.values()),
                 key="multi_item9"
             )
 
-            # Convertir nombres visibles a nombres reales
             columnas_reales = [
                 key for key, value in nombres_columnas.items()
                 if value in columnas_visibles
             ]
 
-            # Slider
             rows = st.slider(
                 "Cantidad de filas a mostrar",
                 5,
@@ -548,45 +521,34 @@ def analisis():
                 key="slider_item9"
             )
 
-            # Mostrar información
+
             if st.checkbox("Mostrar información", key="check_item9"):
 
                 if len(columnas_reales) > 0:
-
                     tabla = df[columnas_reales].head(rows)
-
-                    # Renombrar columnas
                     tabla = tabla.rename(columns=nombres_columnas)
-
                     st.dataframe(tabla, hide_index=True)
 
                 else:
-
                     st.warning("Seleccione al menos una columna.")
 
-            # Análisis dinámico entre variables
             if columnas_reales and len(columnas_reales) >= 2:
 
                 st.subheader("Análisis entre Variables")
-
                 col1 = columnas_reales[0]
                 col2 = columnas_reales[1]
 
                 nombre1 = nombres_columnas[col1]
                 nombre2 = nombres_columnas[col2]
 
-                # NUMÉRICA VS NUMÉRICA
                 if col1 in numerical_cols and col2 in numerical_cols:
-
                     correlacion = round(df[col1].corr(df[col2]), 2)
-
                     st.write(f"""
                     La relación entre '{nombre1}' y '{nombre2}'
                     presenta una correlación de {correlacion}.
                     """)
 
                     if correlacion > 0:
-
                         st.write(f"""
                         Esto indica una relación positiva entre ambas variables,
                         es decir, cuando '{nombre1}' aumenta,
@@ -594,7 +556,6 @@ def analisis():
                         """)
 
                     elif correlacion < 0:
-
                         st.write(f"""
                         Esto indica una relación negativa entre ambas variables,
                         es decir, cuando '{nombre1}' aumenta,
@@ -602,18 +563,14 @@ def analisis():
                         """)
 
                     else:
-
                         st.write("""
                         No se observa una relación significativa entre ambas variables.
                         """)
 
-                # CATEGÓRICA VS NUMÉRICA
                 elif col1 in categorical_cols and col2 in numerical_cols:
 
                     promedio = df.groupby(col1)[col2].mean()
-
                     categoria_top = promedio.idxmax()
-
                     valor_top = round(promedio.max(),2)
 
                     st.write(f"""
@@ -622,26 +579,19 @@ def analisis():
                     con un valor de {valor_top}.
                     """)
 
-                # NUMÉRICA VS CATEGÓRICA
                 elif col1 in numerical_cols and col2 in categorical_cols:
 
                     promedio = df.groupby(col2)[col1].mean()
-
                     categoria_top = promedio.idxmax()
-
                     valor_top = round(promedio.max(),2)
-
                     st.write(f"""
                     La categoría '{categoria_top}' presenta el promedio más alto
                     en la variable '{nombre1}',
                     con un valor de {valor_top}.
                     """)
 
-                # CATEGÓRICA VS CATEGÓRICA
                 else:
-
                     tabla_cruzada = pd.crosstab(df[col1], df[col2])
-
                     st.write(f"""
                     Se observa la distribución conjunta entre
                     '{nombre1}' y '{nombre2}',
@@ -650,25 +600,63 @@ def analisis():
                     """)
 
         with tabs[9]:
-
             st.header("Item 10 - Hallazgos Clave")
-
             st.subheader("Insights principales")
-
             st.write("- Por el análisis realizado se obtuvo que la mayoría de clientes es de zona urbana.")
             st.write("- Existen diferencias de ingresos según tipo de cliente.")
             st.write("- El canal de adquisición influye en la renovación.")
             st.write("- Los clientes con menos retrasos tienden a renovar más.")
 
             renewal_counts = df['renewal'].value_counts()
-
             fig, ax = plt.subplots(figsize=(5,4))
             renewal_counts.plot(kind='bar', ax=ax)
             st.pyplot(fig)
 
+            if st.button("Ver conclusiones finales completas"):
+                st.session_state.pagina = "conclusiones"
+                st.rerun()
+
     else:
         st.warning("Debe cargar un archivo CSV para ejecutar el análisis")
 
+
+def pantalla_conclusiones():
+
+    st.title("Conclusiones Finales")
+
+    st.write("""
+
+    ### 1. Alta tasa de renovación de pólizas
+
+    Aproximadamente el 93% de los clientes renuevan su póliza,
+    lo cual refleja una adecuada fidelización de clientes.
+
+    ### 2. Diferencias en ingresos y primas
+
+    Existe una alta variabilidad en ingresos y primas,
+    permitiendo identificar distintos perfiles económicos.
+
+    ### 3. Mayor presencia de clientes urbanos
+
+    La cartera presenta mayor concentración en zonas urbanas,
+    representando oportunidades comerciales importantes.
+
+    ### 4. Bajo nivel de morosidad
+
+    La mayoría de clientes presenta bajos niveles de retraso en pagos,
+    aunque existe un pequeño grupo con morosidad elevada.
+
+    ### 5. Soporte para toma de decisiones
+
+    El análisis exploratorio facilita la segmentación de clientes,
+    gestión de riesgo y diseño de estrategias comerciales.
+    """)
+
+    # Botón para regresar
+    if st.button("Volver al análisis"):
+
+        st.session_state.pagina = "principal"
+        st.rerun()
 
 
 
@@ -687,18 +675,17 @@ def analisis():
 
 ## NAVEGACION
 
-if opcion=="Home":
-    home()
+if st.session_state.pagina == "principal":
+    if opcion=="Home":
+        home()
 
-elif opcion=="Visualizar dataset":
+    elif opcion=="Visualizar dataset":
 
-    visualizar()
+        visualizar()
 
-elif opcion=="Análisis exploratorio":
-    analisis()
+    elif opcion=="Análisis exploratorio":
+        analisis()
 
-elif opcion=="Ejercicio 3":
-    ejercicio3()
-    
-elif opcion=="Ejercicio 4":
-    ejercicio4()
+elif st.session_state.pagina == "conclusiones":
+
+    pantalla_conclusiones()
