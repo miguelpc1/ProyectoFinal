@@ -63,20 +63,20 @@ def home():
     #with img2:
      #   st.image("logoPython.jpg",width=100)
 
-    st.title("Proyecto Final - Insurance Company Analytics")
-    st.write("""El objetivo del anáisis es detectar la probabilidad que existe de que cliente pueda" \
+    st.title("📊 Proyecto Final - Insurance Company Analytics")
+    st.write(""" 📌 El objetivo del anáisis es detectar la probabilidad que existe de que cliente pueda" \
             pueda renovar su póliza """)
-    st.write("Nombre completo: Miguel Eugenio Poma Cerron")
-    st.write("""Nombre del curso: Especialización Python for Anaytics "
+    st.write("🪪 Nombre completo: Miguel Eugenio Poma Cerron")
+    st.write("""🔤 Nombre del curso: Especialización Python for Anaytics "
                 \nAño: 2026
-                \nExplicación del dataset: El dataset utilizado para la exploración de datos información valiosa en la toma de decisiones para los ejecutivos de una empresa aseguradora """)
-    st.write("Tecnologías utilizadas: Streamlit, Numpy, Python, Pandas")
+                \n📈 Explicación del dataset: El dataset utilizado para la exploración de datos información valiosa en la toma de decisiones para los ejecutivos de una empresa aseguradora """)
+    st.write("🛠️ Tecnologías utilizadas: Streamlit, Numpy, Python, Pandas")
 
 
 
 def visualizar():
 
-    st.title("Cargar dataset a mostrar")
+    st.title("🗂️ Cargar dataset a mostrar")
 
     uploaded_file = st.file_uploader("Cargar archivo CSV", type=["csv"])
 
@@ -99,9 +99,9 @@ def visualizar():
 
 def analisis():
 
-    st.title("Análisis Exploratorio de Datos (EDA)")
+    st.title("⚡📊 Análisis Exploratorio de Datos (EDA)")
 
-    uploaded_file = st.file_uploader("Cargar archivo CSV para análisis", type=["csv"])
+    uploaded_file = st.file_uploader("🗂️ Cargar archivo CSV para análisis", type=["csv"])
 
     if uploaded_file is not None:
 
@@ -126,7 +126,7 @@ def analisis():
 
         with tabs[0]:
 
-            st.header("Item 1 - Información General del Dataset")
+            st.header("📋Item 1 - Información General del Dataset")
 
             col1, col2 = st.columns(2)
 
@@ -146,7 +146,7 @@ def analisis():
             st.text(s)
 
         with tabs[1]:
-            st.header("Item 2 - Clasificación de Variables")
+            st.header("📑 Item 2 - Clasificación de Variables")
             col1, col2 = st.columns(2)
             with col1:
                 st.subheader("Variables Numéricas")
@@ -159,7 +159,7 @@ def analisis():
             
         with tabs[2]:
 
-            st.header("Item 3 - Estadísticas Descriptivas")
+            st.header("📈Item 3 - Estadísticas Descriptivas")
             st.subheader("Resumen Estadístico")
             nombres_columnas = {
                 "id": "Id de cliente",
@@ -200,7 +200,7 @@ def analisis():
 
         with tabs[3]:
 
-            st.header("Item 4 - Análisis de Valores Faltantes")
+            st.header("🚨Item 4 - Análisis de Valores Faltantes")
             faltante = df.isnull().sum()
             faltante_df = pd.DataFrame({
                 "Variable": faltante.index,
@@ -237,7 +237,7 @@ def analisis():
 
         with tabs[4]:
 
-            st.header("Item 5 - Distribución de Variables Numéricas")
+            st.header("🔢Item 5 - Distribución de Variables Numéricas")
             nombres_columnas = {
                 "id": "Id de cliente",
                 "perc_premium_paid_by_cash_credit": "% de prima pagada",
@@ -287,7 +287,7 @@ def analisis():
         
         with tabs[5]:
 
-            st.header("Item 6 - Variables Categóricas")
+            st.header("🔠Item 6 - Variables Categóricas")
             nombres_columnas = {
                 "id": "Id de cliente",
                 "perc_premium_paid_by_cash_credit": "% de prima pagada",
@@ -353,7 +353,7 @@ def analisis():
 
 
         with tabs[6]:
-            st.header("Item 7 - Análisis Bivariado Numérico vs Categórico")
+            st.header("📉🗂️Item 7 - Análisis Bivariado Numérico vs Categórico")
             nombres_columnas = {
                 "id": "Id de cliente",
                 "perc_premium_paid_by_cash_credit": "% de prima pagada",
@@ -415,7 +415,7 @@ def analisis():
 
         with tabs[7]:
 
-            st.header("Item 8 - Análisis Categórico vs Categórico")
+            st.header("🧠📋Item 8 - Análisis Categórico vs Categórico")
 
             nombres_columnas = {
                 "id": "Id de cliente",
@@ -485,7 +485,7 @@ def analisis():
         
         with tabs[8]:
 
-            st.header("Item 9 - Análisis Dinámico")
+            st.header("📋🔄Item 9 - Análisis Dinámico")
             nombres_columnas = {
                 "id": "Id de cliente",
                 "perc_premium_paid_by_cash_credit": "% de prima pagada",
@@ -600,7 +600,7 @@ def analisis():
                     """)
 
         with tabs[9]:
-            st.header("Item 10 - Hallazgos Clave")
+            st.header("🔑Item 10 - Hallazgos Clave")
             st.subheader("Insights principales")
             st.write("- Por el análisis realizado se obtuvo que la mayoría de clientes es de zona urbana.")
             st.write("- Existen diferencias de ingresos según tipo de cliente.")
@@ -628,9 +628,7 @@ def pantalla_conclusiones():
 
     ### 1. Alta tasa de renovación de pólizas
 
-    Aproximadamente el 93% de los clientes renuevan su póliza,
-    lo cual refleja una adecuada fidelización de clientes.
-
+    Aproximadamente el 93% de los clientes renuevan su póliza, lo cual es un buen indicativo para la empresa.
     ### 2. Diferencias en ingresos y primas
 
     Existe una alta variabilidad en ingresos y primas,
@@ -638,13 +636,12 @@ def pantalla_conclusiones():
 
     ### 3. Mayor presencia de clientes urbanos
 
-    La cartera presenta mayor concentración en zonas urbanas,
-    representando oportunidades comerciales importantes.
+    Gran parte de los clientes pertenecen al área urbano, esto también es útil para poder llevar a cabo
+             una campaña de captación de clientes en el área rural.
 
     ### 4. Bajo nivel de morosidad
 
-    La mayoría de clientes presenta bajos niveles de retraso en pagos,
-    aunque existe un pequeño grupo con morosidad elevada.
+    La mayoría de clientes presenta un aceptable nivel de cumplimiento en las fechas de pago establecidas.
 
     ### 5. Soporte para toma de decisiones
 
